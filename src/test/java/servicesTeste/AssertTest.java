@@ -35,7 +35,7 @@ public class AssertTest {
 	public void testObject() {
 		Usuario u1 = new Usuario("Usuario 1");
 		Usuario u2 = new Usuario("Usuario 1");
-		Usuario u3 = u2; 
+		Usuario u3 = u2;  
 		
 		Assert.assertEquals(u1, u2);//to do the validation you need the equals method in the object class
 		Assert.assertSame(u3, u2);//checks if the two objects are from the same instance
