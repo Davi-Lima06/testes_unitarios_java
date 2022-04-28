@@ -3,7 +3,9 @@ package servicesTeste;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,12 +41,16 @@ public class LocacaoServiceTeste {
 	public void testeLocacao() throws Exception {
 
 		// scenery
+		List<Filme> filmes = new ArrayList<Filme>();
 		Usuario usuario1 = new Usuario("Usuario 1");
 		Filme filme = new Filme("Blindes", 3, 5.0);
+		//Filme filme2 = new Filme("Blindes 2", 3, 5.0);
 		Locacao locacao;
+		filmes.add(filme);
+		//filmes.add(filme2);
 
 		// action
-		locacao = service.alugarFilme(usuario1, filme);
+		locacao = service.alugarFilme(usuario1, filmes);
 
 		// validation
 		error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)),
@@ -58,11 +64,13 @@ public class LocacaoServiceTeste {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeLocacao_filmeSemEstoque() throws Exception {
 		// scenery
+		List<Filme> filmes = new ArrayList<Filme>();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Blindes", 0, 5.0);
 
+		filmes.add(filme);
 		// action
-		service.alugarFilme(usuario, filme);
+		service.alugarFilme(usuario, filmes);
 
 		// validation
 	}
@@ -71,11 +79,13 @@ public class LocacaoServiceTeste {
 	@Test
 	public void testLocacao_usuarioVazio() throws FilmeSemEstoqueException {
 		// scenery
+		List<Filme> filmes = new ArrayList<Filme>();
 		Filme filme = new Filme("Blindes", 1, 5.0);
-
+		
+		filmes.add(filme);
 		// action
 		try {
-			service.alugarFilme(null, filme);
+			service.alugarFilme(null, filmes);
 			Assert.fail("should launch a exception");
 		} catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), is("user empty"));
